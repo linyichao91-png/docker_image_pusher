@@ -1,0 +1,17 @@
+name: 拉取OpenRAVE镜像
+on:
+  push:
+    paths:
+      - "images.txt"  # 仅当images.txt被修改时，触发该工作流
+jobs:
+  pull-openrave:
+    runs-on: ubuntu-latest  # 运行在GitHub提供的Ubuntu虚拟机上
+    steps:
+      - name: 拉取仓库代码
+        uses: actions/checkout@v4  # 拉取当前仓库的代码到虚拟机
+
+      - name: 拉取OpenRAVE镜像
+        run: docker pull personalrobotics/openrave  # 拉取社区维护的可靠镜像
+
+      - name: 验证镜像是否拉取成功
+        run: docker images | grep personalrobotics/openrave  # 检查本地镜像列表中是否存在该镜像
